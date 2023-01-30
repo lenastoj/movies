@@ -1,20 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <title>Movie</title>
-</head>
-<body>
-    @include('components.navigation')
-    <h1>{{ $movie->name }}</h1>
-    <p>{{ $movie->genre }}</p>
-    <p>{{ $movie->director }}</p>
-    <p>{{ $movie->year }}</p>
-    <p>{{ $movie->storyline }}</p>
-    <a href="/movies">Back to all movies</a>
-    @include('components.footer')
-</body>
-</html>
+@extends('layout.default')
+
+@section('content')
+<div class="container" style="margin-top: 2rem;">
+    {{-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"> --}}
+        {{-- <div class="col"> --}}
+            <div class="card shadow-sm" style="padding: 2rem;">
+
+                <h1>{{ $movie->name }}</h1>
+                <p><a href="/genre/{{ $movie->genre }}">{{ $movie->genre }}</a></p>
+                <p>{{ $movie->director }}</p>
+                <p>{{ $movie->year }}</p>
+                <p>{{ $movie->storyline }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                <a href="/movies" class="btn btn-sm btn-outline-secondary">Back to all movies</a>
+                </div>
+            </div>
+        {{-- </div> --}}
+    {{-- </div> --}}
+</div>
+
+    <div class="container" style="margin-top: 5rem;">
+        <form action="{{ url('createcomment') }}" method="POST">
+            @csrf
+    {{-- <h5>Create new comment</h5> --}}
+            <div class="mb-3">
+                <label class="form-label">Enter Comment</label>
+                <textarea class="form-control" name="content" id="content" cols="30" placeholder="Enter your comment" required></textarea>
+                <input type="hidden" name="movie_id" value="{{ $movie->id }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Post comment</button>
+        </form>
+    
+
+        @foreach ($movie->comments as $comment)
+            <div class="row align-items-md-stretch" style="margin-top: 1rem;">
+                <div class="mb-3">
+                    <div class="h-100 p-5 text-bg-dark rounded-3">
+                        <h4>Comment: {{ $comment->id }}</h4>
+                        <p>{{ $comment->content }}</p>
+                        {{-- <button class="btn btn-outline-light" type="button">Example button</button>     --}}
+                    </div>
+                </div>
+            <div
+        @endforeach
+    {{-- </div> --}}
+
+
+@stop
+

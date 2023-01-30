@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Document</title>
-</head>
-<body>
+@extends('layout.default')
+
+@section('content')
     <div class="container" style="margin-top: 5rem;">
         <form action="{{ url('addmovie') }}" method="POST">
             @csrf
         <h1>Add new movie</h1>
         <div class="mb-3">
             <label class="form-label">Enter Movie Title</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Title" required>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Title" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Enter Genre</label>
@@ -27,7 +19,7 @@
         </div>
         <div class="mb-3">
             <label class="form-label">Enter Year</label>
-            <input type="text" class="form-control" id="year" name="year" placeholder="Year" required>
+            <input type="year" class="form-control" id="year" name="year" placeholder="Year" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Enter Storyline</label>
@@ -37,5 +29,20 @@
         <button type="submit" class="btn btn-primary">Add movie</button>
         </form>
     </div>
-</body>
-</html>
+
+    @if ($errors->any()) 
+        <div class="container" style="margin-top: 2rem;">
+            <ul class="list-group" style="list-style: none;">
+                @foreach ($errors->all() as $error)
+                    <li class="alert alert-danger" >{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>  
+    @endif
+
+    @if (session('status'))
+        <div class="container" style="margin-top: 2rem;"    >
+            <div class="alert alert-success"> {{ session('status') }}</div>
+        </div>
+    @endif
+@stop
